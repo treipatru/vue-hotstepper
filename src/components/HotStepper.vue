@@ -24,15 +24,17 @@
           </span>
           <div class="line"></div>
         </div>
-        <div class="label" @click="updateStep(index)">
+        <div class="label">
           <span>
             {{step}}
           </span>
         </div>
       </li>
     </ol>
+
+
     <div class="debug">
-      <p>INDEX NOW: {{cStep}}</p>
+      <span>INDEX NOW: {{cStep}}</span>
       <select
         v-model="cStep"
       >
@@ -44,8 +46,10 @@
           {{step}}
         </option>
       </select>
-      <button @click="goDown"> BACK </button>
-      <button @click="goUp"> NEXT </button>
+      <div class="bttns">
+        <button @click="goDown"> BACK </button>
+        <button @click="goUp"> NEXT </button>
+      </div>
     </div>
   </div>
 </template>
@@ -64,21 +68,6 @@ export default {
     }
   },
   methods: {
-    updateStep: function (d) {
-      if (d < this.cStep) {
-        for (let i = d; i < this.steps.length; i++) {
-          this.animations[i].seek(0)
-        }
-      } else if (d > this.cStep + 1) {
-        for (let i = this.cStep; i < d; i++) {
-          this.animations[i].restart()
-        }
-      } else if (d === this.cStep + 1) {
-        this.animations[d-1].play()
-      }
-      this.cStep = d
-      console.log(this.cStep)
-    },
     goUp: function () {
       console.log(this.steps.maxLength)
       if (this.cStep !== this.steps.length) {
@@ -115,6 +104,18 @@ export default {
           easing: 'easeOutExpo'
         })
     }
+  },
+  watch: {
+    cStep: function (nVal, oVal) {
+      console.log('Changed from ' + oVal + ' to ' + nVal)
+
+      // Mark smaller indexes as completed
+
+      // Mark current index as current
+
+      // Mark higher indexes as uncompleted
+
+    }
   }
 }
 </script>
@@ -133,6 +134,7 @@ export default {
   .hello {
     ol {
       list-style: none;
+      padding: 0;
 
       li {
         $parent: &;
@@ -220,6 +222,17 @@ export default {
           color:  $post-color;
         }
       }
+    }
+  }
+  .debug {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+
+    >* {
+      margin-bottom: 0.8rem;
     }
   }
 </style>
