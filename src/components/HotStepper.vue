@@ -31,8 +31,22 @@
         </div>
       </li>
     </ol>
-    <span @click=""> BACK </span>
-    <span @click=""> FORWARD </span>
+    <div class="debug">
+      <p>INDEX NOW: {{cStep}}</p>
+      <select
+        v-model="cStep"
+      >
+        <option
+          v-for="(step,index) in steps"
+          :key="index"
+          :value="index"
+        >
+          {{step}}
+        </option>
+      </select>
+      <button @click="goDown"> BACK </button>
+      <button @click="goUp"> NEXT </button>
+    </div>
   </div>
 </template>
 
@@ -64,6 +78,17 @@ export default {
       }
       this.cStep = d
       console.log(this.cStep)
+    },
+    goUp: function () {
+      console.log(this.steps.maxLength)
+      if (this.cStep !== this.steps.length) {
+        this.cStep += 1
+      }
+    },
+    goDown: function () {
+      if (this.cStep !== 0) {
+        this.cStep -= 1
+      }
     }
   },
   mounted: function () {
