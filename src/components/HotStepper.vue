@@ -3,7 +3,15 @@
     ol
       li(
         v-for="(step, index) in steps"
-      ) {{step}}
+      )
+        div(
+          :id="'htsr' + index",
+          class="step-container"
+        )
+          div.icon
+            span.number {{index + 1}}
+          div.label
+            span.text {{step}}
 </template>
 
 
@@ -41,10 +49,40 @@ export default {
 
 <style lang="scss">
   .hot-stepper {
+    $icon-cont-size: 1.8rem;
+
     ol {
       list-style: none;
       padding: 0;
       margin: 0;
+
+      li {
+        .step-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          align-content: center;
+
+          .icon {
+            width: $icon-cont-size;
+            height: $icon-cont-size;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            flex-direction: row;
+            justify-content: space-around;
+            border-radius: 50%;
+
+            .number {
+            }
+          }
+          .label {
+            .text {
+
+            }
+          }
+        }
+      }
     }
   }
 </style>
