@@ -1,6 +1,8 @@
-# test-project
+# Vue-Hotstepper
 
-> A Vue.js project
+> A dynamic stepper component for vue js.
+> Built with the purpose of trying out some ideas.
+> Not production ready. Not anything ready, really.
 
 ## Build Setup
 
@@ -23,5 +25,3 @@ npm run unit
 # run all tests
 npm test
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
