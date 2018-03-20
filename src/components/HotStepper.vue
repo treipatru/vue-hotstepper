@@ -31,6 +31,19 @@ import * as pop from 'popmotion'
 export default {
   name: 'HotStepper',
   computed: {
+    state: function () {
+      let c = this.cStep
+
+      return this.steps.map((el, i) => {
+        if (i < c) {
+          return 'post'
+        } else if (i === c) {
+          return 'now'
+        } else {
+          return 'pre'
+        }
+      })
+    },
     circles: function () {
       let a = Array.from(document.querySelectorAll('.step-container .icon'))
       return a.map(el => pop.styler(el))
@@ -81,6 +94,9 @@ export default {
           update: vm.circles[nVal].set
         })
       }
+    },
+    state: function (nVal, oVal) {
+      // Monitoring this thread
     }
   }
 }
