@@ -67,6 +67,7 @@ export default {
   align-content: center;
   justify-content: space-around;
   flex-direction: column;
+  background: #F9F9F9;
 
   #debug {
     display: flex;
