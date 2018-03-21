@@ -8,9 +8,15 @@
           :id="'htsr' + index",
           class="step-container"
         )
-          div.icon
-            span.number {{index + 1}}
-            span.check
+          div.icon(
+            :id="'htsr' + index + 'icon'"
+          )
+            span.number(
+              :id="'htsr' + index + 'number'"
+            ) {{index + 1}}
+            span.check(
+              :id="'htsr' + index + 'check'"
+            )
               svg(
                 xmlns="http://www.w3.org/2000/svg",
                 viewBox="0 0 512 512"
@@ -47,24 +53,28 @@ export default {
     circles: function () {
       let a = Array.from(document.querySelectorAll('.step-container .icon'))
       return a.map(el => pop.styler(el))
+    },
+    numbers: function () {
+      let a = Array.from(document.querySelectorAll('.step-container .number'))
+      return a.map(el => pop.styler(el))
+    },
+    checks: function () {
+      let a = Array.from(document.querySelectorAll('.step-container .check'))
+      return a.map(el => pop.styler(el))
     }
   },
   data() {
     return {
       anims: {
-        circleFade: pop.keyframes({
-          values: [
-            { background: '#FFF'},
-            { background: '#1CD1E4'}
-          ],
-          duration: 1000,
-          times: [0, 1]
-        })
       }
     }
   },
 
   methods: {
+    getCssProperty: function (id, property) {
+      let el = document.getElementById(id)
+      return window.getComputedStyle(el).getPropertyValue(property)
+    }
   },
 
   mounted: function () {
@@ -88,15 +98,43 @@ export default {
       //Warn if cStep is invalid
       if (nVal < 0 || nVal > vm.steps.length - 1) {
         console.log('Current step (' + nVal + ') out of bounds')
-      } else {
-        // Animate
-        vm.anims.circleFade.start({
-          update: vm.circles[nVal].set
-        })
       }
     },
+
+    // Check for changed elements and dispatch animations
     state: function (nVal, oVal) {
-      // Monitoring this thread
+      let vm = this
+      let a = nVal.map( (el, i) => {
+
+        if (el !== oVal[i]) {
+          const curColor = vm.getCssProperty('htsr' + i + 'icon', 'background-color')
+
+          if (el === 'post') {
+            pop.keyframes({
+              values: [curColor , '#989898'],
+              duration: 200
+            }).start(vm.circles[i].set('backgroundColor'))
+
+          }
+
+          if (el === 'now') {
+            pop.keyframes({
+              values: [curColor , '#14D790'],
+              duration: 200
+            }).start(vm.circles[i].set('backgroundColor'))
+          }
+
+          if (el === 'pre') {
+            pop.keyframes({
+              values: [curColor , 'rgba(0, 0, 0, 0)'],
+              duration: 200
+            }).start(vm.circles[i].set('backgroundColor'))
+          }
+        }
+
+      })
+
+        return a
     }
   }
 }
@@ -136,6 +174,7 @@ export default {
             }
 
             .check {
+              opacity: 0;
 
               svg {
                 width: 1rem;
